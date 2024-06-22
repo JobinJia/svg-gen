@@ -5,8 +5,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: () => import('@/views/Home/HomeView.vue'),
+    },
+    {
+      path: '/svg-render',
+      name: 'SvgRender',
+      component: () => import('@/views/SvgRender/index.vue'),
     },
   ],
 })
