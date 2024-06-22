@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { nextTick, onMounted, ref, watch } from 'vue'
 import '@svgdotjs/svg.filter.js'
 import { SVG } from '@svgdotjs/svg.js'
 import { createRoundedRectPath, svg2base64 } from '@/views/SvgRender/util'
@@ -19,6 +19,8 @@ const props = withDefaults(defineProps<{
   dash: false,
   id: 'svgId',
 })
+
+const model = defineModel()
 
 const svgWrapperRefEl = ref<HTMLDivElement>()
 
@@ -95,15 +97,13 @@ function drawCanvas() {
   }) // x="-50%" y="-50%" width="200%" height="200%"
 
   svgInstance.value = canvas
+
+  nextTick(() => {
+    model.value = svg2base64(document.querySelector(`#${props.id}`)!)
+  })
 }
 
 onMounted(drawCanvas)
-
-defineExpose({
-  getBase64Url: () => {
-    return svg2base64(document.querySelector(`#${props.id}`)!)
-  },
-})
 </script>
 
 <template>
